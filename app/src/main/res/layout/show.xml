@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="show"
+            type="pl.pam.moviesapi.services.dto.Show" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:background="#383449"
+        android:orientation="horizontal"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp">
+
+        <ImageView
+            android:id="@+id/show_poster"
+            android:layout_width="150px"
+            android:layout_height="match_parent"
+            android:maxWidth="150px"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/show_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:ellipsize="end"
+                    android:maxLength="20"
+                    android:maxLines="1"
+                    android:textAlignment="textStart"
+                    android:textColor="#C2BDBD"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:text="@{show.title}"/>
+
+                <TextView
+                    android:id="@+id/show_release_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:maxLines="1"
+                    android:textAlignment="textEnd"
+                    android:textColor="#C2BDBD"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:text="@{show.releaseDate}"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/show_description"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autoSizeMaxTextSize="22sp"
+                android:autoSizeTextType="uniform"
+                android:ellipsize="end"
+                android:textColor="#5D84A2"
+                android:text="@{show.description}"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</layout>

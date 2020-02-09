@@ -2,22 +2,30 @@ package pl.pam.moviesapi.utils
 
 
 import java.io.FileInputStream
+import java.io.InputStream
 import java.util.*
 
-class Utils {
-    companion object{
+public final class Utils private constructor() {
+    companion object {
         private var properties: Properties? = null;
+        fun initialize(fis: InputStream) {
 
-        fun getProperty (propertyName: String): Any? {
+            properties = Properties()
+            properties!!.load(fis)
 
-            if(properties==null)
-            {
-                val fis = FileInputStream("file:///android_asset/application.properties")
-                properties = Properties()
-                properties!!.load(fis)
-            }
-
-            return properties!![propertyName]
         }
+
+        private var instance: Utils? = null;
+        fun getInstance(): Utils {
+            if (this.instance == null)
+                this.instance = Utils();
+
+            return this.instance!!;
+        }
+    }
+
+
+    fun getProperty(propertyName: String): Any? {
+        return properties!![propertyName]
     }
 }
