@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,7 +36,7 @@ class ShowList : Fragment() {
     private lateinit var showList: MutableList<Show>
     private lateinit var mas: MoviesApiService;
     private lateinit var rview: RecyclerView;
-    private var currentPage:Int = 1;
+    private var currentPage: Int = 1;
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,18 +58,25 @@ class ShowList : Fragment() {
 
         viewModel = ViewModelProviders.of(this).get(ShowViewModel::class.java)
         button_search.setOnClickListener {
-currentPage = 1;
+            currentPage = 1;
             val input = search_input.text.toString();
 
             if (input.isEmpty()) {
                 this.initializeData();
 
             } else {
-                val call = mas.findMovies(Utils.getInstance().getProperty("api.key") as String, input,currentPage.toString());
+                val call = mas.findMovies(
+                    Utils.getInstance().getProperty("api.key") as String,
+                    input,
+                    currentPage.toString()
+                );
 
                 call.enqueue(object : Callback<MoviesListResponseDTO?> {
                     override fun onFailure(call: Call<MoviesListResponseDTO?>, t: Throwable) {
-                        Log.w(MainActivity::class.simpleName, "Nie udało się pobrać szukanych filmmów");
+                        Log.w(
+                            MainActivity::class.simpleName,
+                            "Nie udało się pobrać szukanych filmmów"
+                        );
                     }
 
                     override fun onResponse(
@@ -82,8 +90,19 @@ currentPage = 1;
                             );
                         else {
                             showList = response.body()!!.movies
-                            if(showList.size!=0)
-                            rview.adapter = ShowListAdapter(showList)
+                            if (showList.size != 0)
+                                rview.adapter = ShowListAdapter(showList)
+
+                            if (currentPage == 1)
+                                prevPage.visibility = View.GONE
+                            else prevPage.visibility = View.VISIBLE
+
+
+                            if(showList.size<20)
+                                nextPage.visibility = View.GONE;
+                            else
+                                nextPage.visibility = View.VISIBLE;
+
                             Log.i(MainActivity::class.simpleName, "Pobrano bazę szukanych filmów");
                         }
                     }
@@ -99,11 +118,18 @@ currentPage = 1;
                 this.initializeData();
 
             } else {
-                val call = mas.findMovies(Utils.getInstance().getProperty("api.key") as String, input,currentPage.toString());
+                val call = mas.findMovies(
+                    Utils.getInstance().getProperty("api.key") as String,
+                    input,
+                    currentPage.toString()
+                );
 
                 call.enqueue(object : Callback<MoviesListResponseDTO?> {
                     override fun onFailure(call: Call<MoviesListResponseDTO?>, t: Throwable) {
-                        Log.w(MainActivity::class.simpleName, "Nie udało się pobrać szukanych filmmów");
+                        Log.w(
+                            MainActivity::class.simpleName,
+                            "Nie udało się pobrać szukanych filmmów"
+                        );
                     }
 
                     override fun onResponse(
@@ -117,8 +143,18 @@ currentPage = 1;
                             );
                         else {
                             showList = response.body()!!.movies
-                            if(showList.size!=0)
-                            rview.adapter = ShowListAdapter(showList)
+                            if (showList.size != 0)
+                                rview.adapter = ShowListAdapter(showList)
+
+                            if (currentPage == 1)
+                                prevPage.visibility = View.GONE
+                            else prevPage.visibility = View.VISIBLE
+
+                            if(showList.size<20)
+                                nextPage.visibility = View.GONE;
+                            else
+                                nextPage.visibility = View.VISIBLE;
+
                             Log.i(MainActivity::class.simpleName, "Pobrano bazę szukanych filmów");
                         }
                     }
@@ -127,8 +163,7 @@ currentPage = 1;
         }
 
         prevPage.setOnClickListener {
-            if(currentPage!=1)
-            {
+            if (currentPage != 1) {
                 currentPage--;
 
                 val input = search_input.text.toString();
@@ -137,11 +172,18 @@ currentPage = 1;
                     this.initializeData();
 
                 } else {
-                    val call = mas.findMovies(Utils.getInstance().getProperty("api.key") as String, input,currentPage.toString());
+                    val call = mas.findMovies(
+                        Utils.getInstance().getProperty("api.key") as String,
+                        input,
+                        currentPage.toString()
+                    );
 
                     call.enqueue(object : Callback<MoviesListResponseDTO?> {
                         override fun onFailure(call: Call<MoviesListResponseDTO?>, t: Throwable) {
-                            Log.w(MainActivity::class.simpleName, "Nie udało się pobrać szukanych filmmów");
+                            Log.w(
+                                MainActivity::class.simpleName,
+                                "Nie udało się pobrać szukanych filmmów"
+                            );
                         }
 
                         override fun onResponse(
@@ -156,12 +198,15 @@ currentPage = 1;
                             else {
                                 showList = response.body()!!.movies
 
-                                if(showList.size!=0)
-                                rview.adapter = ShowListAdapter(showList)
+                                if (showList.size != 0)
+                                    rview.adapter = ShowListAdapter(showList)
 
 
 
-                                Log.i(MainActivity::class.simpleName, "Pobrano bazę szukanych filmów");
+                                Log.i(
+                                    MainActivity::class.simpleName,
+                                    "Pobrano bazę szukanych filmów"
+                                );
                             }
                         }
                     })
@@ -172,10 +217,13 @@ currentPage = 1;
         }
     }
 
-    private fun initializeData(){
+    private fun initializeData() {
         mas = MoviesApiServiceGenerator.createService(MoviesApiService::class.java)
         val callMovies: Call<MoviesListResponseDTO> =
-            mas.getMovies(Utils.getInstance().getProperty("api.key") as String, currentPage.toString())
+            mas.getMovies(
+                Utils.getInstance().getProperty("api.key") as String,
+                currentPage.toString()
+            )
         callMovies.enqueue(object : Callback<MoviesListResponseDTO?> {
             override fun onFailure(call: Call<MoviesListResponseDTO?>, t: Throwable) {
                 Log.w(MainActivity::class.simpleName, "Nie udało się pobrać filmów");
@@ -191,6 +239,16 @@ currentPage = 1;
                     showList = response.body()!!.movies
 
                     rview.adapter = ShowListAdapter(showList)
+
+                    if (currentPage == 1)
+                        prevPage.visibility = View.GONE
+                    else prevPage.visibility = View.VISIBLE
+
+                    if(showList.size<20)
+                        nextPage.visibility = View.GONE;
+                    else
+                        nextPage.visibility = View.VISIBLE;
+
                     Log.i(MainActivity::class.simpleName, "Pobrano bazę filmów");
                 }
             }
