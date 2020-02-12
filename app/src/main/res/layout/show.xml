@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -12,12 +10,15 @@
     </data>
 
     <LinearLayout
+        android:id="@+id/layout_show"
+        android:longClickable="true"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="110dp"
         android:layout_marginTop="3dp"
         android:layout_marginBottom="3dp"
         android:background="#383449"
         android:orientation="horizontal"
+        android:paddingBottom="5dp"
         android:paddingLeft="3dp"
         android:paddingRight="3dp">
 
@@ -41,17 +42,15 @@
 
                 <TextView
                     android:id="@+id/show_title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
                     android:ellipsize="end"
-                    android:maxLength="20"
                     android:maxLines="1"
-                    android:textAlignment="textStart"
+                    android:layout_gravity="left"
                     android:textColor="#C2BDBD"
                     android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:text="@{show.title}"/>
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/show_release_date"
@@ -62,8 +61,7 @@
                     android:textAlignment="textEnd"
                     android:textColor="#C2BDBD"
                     android:textSize="17sp"
-                    android:textStyle="bold"
-                    android:text="@{show.releaseDate}"/>
+                    android:textStyle="bold"/>
 
             </LinearLayout>
 
@@ -73,6 +71,7 @@
                 android:layout_height="match_parent"
                 android:autoSizeMaxTextSize="22sp"
                 android:autoSizeTextType="uniform"
+                android:maxLines="4"
                 android:ellipsize="end"
                 android:textColor="#5D84A2"
                 android:text="@{show.description}"/>

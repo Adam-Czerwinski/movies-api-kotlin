@@ -12,4 +12,10 @@ public interface MoviesApiService {
 
     @GET("search/movie?")
     Call<MoviesListResponseDTO> findMovies(@Query("api_key") String key,@Query("query") String input, @Query("page") String page);
+
+    @GET("discover/tv?")
+    Call<MoviesListResponseDTO> getTvShows(@Query("api_key") String key, @Query("page") String page);
+
+    @GET("search/tv?")
+    Call<MoviesListResponseDTO> findTvShows(@Query("api_key") String key,@Query("query") String input, @Query("page") String page);
 }
